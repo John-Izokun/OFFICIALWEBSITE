@@ -10,16 +10,25 @@ function App() {
     window.downloadWhitepaper = downloadWhitepaper;
     window.trackEvent = trackEvent;
 
-    // Header scroll effect
+    // Header scroll effect & progress bar
     const header = document.getElementById('main-header');
+    const progressBar = document.getElementById('scroll-progress');
+    
     const handleScroll = () => {
       const currentScroll = window.pageYOffset;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercentage = (currentScroll / documentHeight) * 100;
+      
       if (header) {
         if (currentScroll <= 0) {
           header.style.boxShadow = 'none';
         } else {
           header.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.3)';
         }
+      }
+      
+      if (progressBar) {
+        progressBar.style.transform = `scaleX(${scrollPercentage / 100})`;
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -137,6 +146,9 @@ function App() {
 
   return (
     <>
+      {/* SCROLL PROGRESS BAR */}
+      <div id="scroll-progress" className="scroll-progress" style={{transform: 'scaleX(0)'}}></div>
+
       {/* HEADER */}
       <header id="main-header">
         <div className="container header-content">
@@ -180,6 +192,61 @@ function App() {
           <div className="hero-cta-group">
             <button className="cta-button success large" onClick={openBookingModal}>BOOK A CALL</button>
             <a href="#blueprint" className="text-link">Read the Anti-Broker Blueprint <span>→</span></a>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS SECTION */}
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-number">$100K+</span>
+              <div className="stat-label">Annual Savings</div>
+              <div className="stat-sublabel">vs. Traditional Brokers</div>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">3-5</span>
+              <div className="stat-label">Qualified Leads</div>
+              <div className="stat-sublabel">Monthly to Your Calendar</div>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">0%</span>
+              <div className="stat-label">Commission</div>
+              <div className="stat-sublabel">Forever. Period.</div>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">48 Hrs</span>
+              <div className="stat-label">Setup Time</div>
+              <div className="stat-sublabel">From Call to Live System</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRUST BADGES */}
+      <section className="trust-section">
+        <div className="container">
+          <div className="trust-badges">
+            <div className="trust-badge">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+              </svg>
+              No Long-Term Contracts
+            </div>
+            <div className="trust-badge">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              Performance Guarantee
+            </div>
+            <div className="trust-badge">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2"/>
+                <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+              Your Data Stays Yours
+            </div>
           </div>
         </div>
       </section>
@@ -451,6 +518,178 @@ function App() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARISON TABLE */}
+      <section className="diagnosis-section">
+        <div className="container">
+          <h2 className="section-headline">Why Manufacturers Choose Infrastructure Over Brokers</h2>
+          
+          <div className="feature-comparison">
+            <table className="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th style={{textAlign: 'center'}}>Traditional Brokers</th>
+                  <th style={{textAlign: 'center'}}>Klyvo Infrastructure</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="feature-name">Commission per Deal</td>
+                  <td style={{textAlign: 'center'}}><span className="cross-icon">5-8%</span></td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓ 0%</span></td>
+                </tr>
+                <tr>
+                  <td className="feature-name">Lead Quality Control</td>
+                  <td style={{textAlign: 'center'}}><span className="cross-icon">✗</span></td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓</span></td>
+                </tr>
+                <tr>
+                  <td className="feature-name">Direct Calendar Integration</td>
+                  <td style={{textAlign: 'center'}}><span className="cross-icon">✗</span></td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓</span></td>
+                </tr>
+                <tr>
+                  <td className="feature-name">Dedicated Support</td>
+                  <td style={{textAlign: 'center'}}><span className="cross-icon">✗</span></td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓</span></td>
+                </tr>
+                <tr>
+                  <td className="feature-name">Data Ownership</td>
+                  <td style={{textAlign: 'center'}}><span className="cross-icon">✗ Shared</span></td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓ 100% Yours</span></td>
+                </tr>
+                <tr>
+                  <td className="feature-name">Monthly Lead Target</td>
+                  <td style={{textAlign: 'center'}}><span className="cross-icon">Variable</span></td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓ 3-5 Guaranteed</span></td>
+                </tr>
+                <tr>
+                  <td className="feature-name">Setup Time</td>
+                  <td style={{textAlign: 'center'}}>2-4 weeks</td>
+                  <td style={{textAlign: 'center'}}><span className="check-icon">✓ 48 hours</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIAL SECTION */}
+      <section className="testimonial-section">
+        <div className="container">
+          <h2 className="section-headline">What Facility Owners Say</h2>
+          
+          <div className="testimonial-card">
+            <p className="testimonial-text">
+              "We were bleeding $40k annually in broker commissions on just three contracts. Klyvo's infrastructure paid for itself in the first month, and now we're routing qualified leads directly to our production calendar. The system just works."
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">M</div>
+              <div className="author-info">
+                <h4>Michael Chen</h4>
+                <p>Director of Operations, Midwest Co-Packing Solutions</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <section className="faq-section">
+        <div className="container">
+          <h2 className="section-headline">Frequently Asked Questions</h2>
+          
+          <div className="faq-container">
+            <div className="faq-item" onClick={(e) => e.currentTarget.classList.toggle('active')}>
+              <div className="faq-question">
+                <span>How is this different from listing on a marketplace directory?</span>
+                <span className="faq-icon">+</span>
+              </div>
+              <div className="faq-answer">
+                <div className="faq-answer-content">
+                  Directories are passive—you pay to be listed and hope brands find you. Our infrastructure actively hunts for brands that match your exact capabilities and routes them directly to your calendar. It's the difference between a billboard and a sales team.
+                </div>
+              </div>
+            </div>
+
+            <div className="faq-item" onClick={(e) => e.currentTarget.classList.toggle('active')}>
+              <div className="faq-question">
+                <span>What if I don't get 3-5 qualified leads in a month?</span>
+                <span className="faq-icon">+</span>
+              </div>
+              <div className="faq-answer">
+                <div className="faq-answer-content">
+                  Our retainer is performance-paused. If the infrastructure doesn't deliver a qualified production audit in a given month, the monthly retainer doesn't bill. You only pay for results.
+                </div>
+              </div>
+            </div>
+
+            <div className="faq-item" onClick={(e) => e.currentTarget.classList.toggle('active')}>
+              <div className="faq-question">
+                <span>How long does it take to set up?</span>
+                <span className="faq-icon">+</span>
+              </div>
+              <div className="faq-answer">
+                <div className="faq-answer-content">
+                  48 hours from our initial strategy call. We map your sweet spot (MOQs, capabilities, turnaround times), integrate with your calendar system, and begin routing qualified demand within two business days.
+                </div>
+              </div>
+            </div>
+
+            <div className="faq-item" onClick={(e) => e.currentTarget.classList.toggle('active')}>
+              <div className="faq-question">
+                <span>Do you take a percentage of the contracts we close?</span>
+                <span className="faq-icon">+</span>
+              </div>
+              <div className="faq-answer">
+                <div className="faq-answer-content">
+                  No. Zero commission. Forever. We charge a one-time deployment fee ($3,500) to build your infrastructure and a performance-paused retainer. Every dollar of the contract is yours to keep.
+                </div>
+              </div>
+            </div>
+
+            <div className="faq-item" onClick={(e) => e.currentTarget.classList.toggle('active')}>
+              <div className="faq-question">
+                <span>What types of facilities do you work with?</span>
+                <span className="faq-icon">+</span>
+              </div>
+              <div className="faq-answer">
+                <div className="faq-answer-content">
+                  We specialize in co-packers and contract manufacturers in Food & Beverage, Personal Care, and Supplements. If you have 10k-50k unit runs and turnkey capabilities, we can route demand to you.
+                </div>
+              </div>
+            </div>
+
+            <div className="faq-item" onClick={(e) => e.currentTarget.classList.toggle('active')}>
+              <div className="faq-question">
+                <span>What if I'm already working with brokers?</span>
+                <span className="faq-icon">+</span>
+              </div>
+              <div className="faq-answer">
+                <div className="faq-answer-content">
+                  Our infrastructure is complementary—it doesn't replace your existing channels, it adds a commission-free layer. Most clients keep their broker relationships for niche deals while our system handles the bulk of new demand acquisition.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA BANNER */}
+      <section className="cta-banner">
+        <div className="container">
+          <div className="cta-banner-content">
+            <h2>Stop Renting Growth. Start Owning Infrastructure.</h2>
+            <p>
+              Book a 20-minute capacity audit to see if your facility qualifies for our Q1 deployment window.
+            </p>
+            <button className="cta-button success large" onClick={openBookingModal}>
+              BOOK YOUR CAPACITY AUDIT
+            </button>
           </div>
         </div>
       </section>
