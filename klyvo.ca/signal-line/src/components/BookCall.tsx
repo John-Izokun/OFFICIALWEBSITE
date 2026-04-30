@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 const CAL_LINK = 'https://cal.com/johnizokun-klyvo/production-review?overlayCalendar=true'
@@ -12,6 +12,13 @@ interface BookCallProps {
 export default function BookCall({ isOpen, onOpen, onClose }: BookCallProps) {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  // Escape key closes modal
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape' && isOpen) onClose() }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [isOpen, onClose])
 
   return (
     <>
@@ -27,25 +34,34 @@ export default function BookCall({ isOpen, onOpen, onClose }: BookCallProps) {
               <span className="label label-purple">Get Started</span>
             </div>
             <h2 className="book-title">
-              Ready to close the gap?
+              Ready to run the radar<br />for your facility?
             </h2>
             <p className="book-sub">
-              Book a 20-minute call. We'll map your exact situation —
-              manufacturer or brand — and tell you exactly how the engine works for your use case.
+              Book a 20-minute call. We'll map your floor specs — format, MOQ, certifications,
+              capacity — and show you what the OOS Radar surfaces for your exact profile.
             </p>
             <div className="book-ctas">
               <button className="btn btn-primary" onClick={onOpen}>
-                Book a Call
+                Run the OOS Radar for My Facility
               </button>
               <button className="btn btn-outline" onClick={onOpen}>
-                I'm a Brand
+                Watch the Demo First
               </button>
             </div>
             <div className="book-trust">
-              <span className="book-trust-item">No commission model</span>
-              <span className="book-trust-item">Both sides served</span>
-              <span className="book-trust-item">Data-verified leads only</span>
-              <span className="book-trust-item">Montreal-based operation</span>
+              <span className="book-trust-item">No raw lead lists</span>
+              <span className="book-trust-item">Estimator-cleared RFQs only</span>
+              <span className="book-trust-item">Facility-fit before routing</span>
+              <span className="book-trust-item">Built for co-packers</span>
+            </div>
+
+            <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--dim)', marginBottom: '0.5rem' }}>
+                Brand with a stock-out?
+              </p>
+              <a href="mailto:john.izokun@klyvo.ca" style={{ fontSize: '0.875rem', color: 'var(--purp-l)', textDecoration: 'none', fontWeight: 500 }}>
+                Submit your product need → john.izokun@klyvo.ca
+              </a>
             </div>
           </motion.div>
         </div>
@@ -69,7 +85,7 @@ export default function BookCall({ isOpen, onOpen, onClose }: BookCallProps) {
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
               <div className="modal-header">
-                <span className="modal-header-title">Book a Call — Signal & Line</span>
+                <span className="modal-header-title">Run the OOS Radar — Signal & Line</span>
                 <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
               </div>
               <div className="modal-body">

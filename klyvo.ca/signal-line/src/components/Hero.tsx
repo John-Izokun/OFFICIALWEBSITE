@@ -25,28 +25,37 @@ export default function Hero({ onBookCall }: HeroProps) {
         >
           <div className="hero-eyebrow">
             <div className="hero-eyebrow-line" />
-            <span className="label label-purple">Demand Intelligence Platform</span>
+            <span className="label label-purple">Manufacturing-Fit Demand Intelligence</span>
           </div>
 
           <h1 className="hero-title">
-            We find the gap.<br />
-            <span className="hero-title-accent">We close it.</span>
+            Your estimator only sees<br />
+            <span className="hero-title-accent">brands your floor can run.</span>
           </h1>
 
           <p className="hero-sub">
-            Signal & Line scans 10,000+ DTC storefronts in real time, detects brands
-            actively losing revenue from stock-outs, and connects them with the
-            co-packing facility that can run their exact format — this week.
+            Signal & Line scans a live index of 10,000+ DTC storefronts for stock-out
+            signals, filters every opportunity against your MOQ, format, certifications,
+            and capacity window — then routes only estimator-cleared RFQs to your team.
           </p>
 
           <div className="hero-ctas">
             <button className="btn btn-primary" onClick={onBookCall}>
-              I'm a Manufacturer
+              Run the OOS Radar for My Facility
             </button>
-            <span className="hero-cta-divider">·</span>
-            <button className="btn btn-outline" onClick={onBookCall}>
-              I'm a Brand
+            <button
+              className="btn btn-outline"
+              onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              See How It Works
             </button>
+          </div>
+
+          <div className="hero-brand-nudge">
+            Brand with a stock-out?{' '}
+            <a href="mailto:john.izokun@klyvo.ca" className="hero-brand-link">
+              Submit your product need →
+            </a>
           </div>
         </motion.div>
 
@@ -58,10 +67,7 @@ export default function Hero({ onBookCall }: HeroProps) {
         >
           <ScannerFeed />
 
-          <div
-            className="hero-video-card"
-            onClick={() => setVideoLoaded(true)}
-          >
+          <div className="hero-video-card" onClick={() => setVideoLoaded(true)}>
             <div className="hero-video-inner">
               {videoLoaded ? (
                 <iframe
@@ -71,18 +77,16 @@ export default function Hero({ onBookCall }: HeroProps) {
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
                 />
               ) : (
-                <>
-                  <div className="hero-video-play">
-                    <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-                      <path d="M1 1L13 8L1 15V1Z" fill="#07080e" />
-                    </svg>
-                  </div>
-                </>
+                <div className="hero-video-play">
+                  <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+                    <path d="M1 1L13 8L1 15V1Z" fill="#07080e" />
+                  </svg>
+                </div>
               )}
             </div>
             {!videoLoaded && (
               <div className="hero-video-label">
-                Watch: How Signal & Line works (2 min)
+                Watch: How the OOS Radar works (2 min)
               </div>
             )}
           </div>

@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface NavProps {
   onBookCall: () => void
 }
 
+const LINKS = [
+  { label: 'How It Works',  id: 'how-it-works'    },
+  { label: 'Manufacturers', id: 'for-manufacturers' },
+  { label: 'Proof',         id: 'intelligence'      },
+]
+
 export default function Nav({ onBookCall }: NavProps) {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20)
@@ -13,32 +21,118 @@ export default function Nav({ onBookCall }: NavProps) {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  useEffect(() => {
+    const handler = () => { if (window.innerWidth > 768) setMenuOpen(false) }
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setMenuOpen(false)
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
   }
 
   return (
-    <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
-      <div className="nav-inner">
-        <a href="/" className="nav-logo">
-          <div className="nav-logo-dot" />
-          Signal & Line
-        </a>
+    <>
+      <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
+        <div className="nav-inner">
+          <a href="/" className="nav-logo">
+            <div className="nav-logo-dot" />
+            Signal & Line
+          </a>
 
-        <ul className="nav-links">
-          <li><a href="#how-it-works" onClick={e => { e.preventDefault(); scrollTo('how-it-works') }}>How It Works</a></li>
-          <li><a href="#for-manufacturers" onClick={e => { e.preventDefault(); scrollTo('for-manufacturers') }}>Manufacturers</a></li>
-          <li><a href="#for-brands" onClick={e => { e.preventDefault(); scrollTo('for-brands') }}>Brands</a></li>
-          <li><a href="#intelligence" onClick={e => { e.preventDefault(); scrollTo('intelligence') }}>Intelligence</a></li>
-        </ul>
+          <ul className="nav-links">
+            {LINKS.map(l => (
+              <li key={l.id}>
+                <a href={`#${l.id}`} onClick={e => { e.preventDefault(); scrollTo(l.id) }}>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        <div className="nav-cta">
-          <button className="btn btn-outline" style={{ fontSize: '0.8rem', padding: '0.6rem 1.2rem' }} onClick={onBookCall}>
-            Book a Call
-          </button>
+          <div className="nav-cta nav-desktop-cta">
+            <button
+              className="btn btn-purple"
+              style={{ fontSize: '0.8rem', padding: '0.6rem 1.2rem' }}
+              onClick={onBookCall}
+            >
+              Run the OOS Radar
+            </button>
+          </div>
+
+          <div className="nav-mobile-right">
+            <button
+              className="btn btn-purple"
+              style={{ fontSize: '0.75rem', padding: '0.5rem 0.9rem' }}
+              onClick={onBookCall}
+            >
+              Book a Call
+            </button>
+            <button
+              className="hamburger"
+              onClick={() => setMenuOpen(o => !o)}
+              aria-label="Toggle menu"
+            >
+              <span className={`ham-line ${menuOpen ? 'open' : ''}`} />
+              <span className={`ham-line ${menuOpen ? 'open' : ''}`} />
+              <span className={`ham-line ${menuOpen ? 'open' : ''}`} />
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="mobile-menu"
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <nav className="mobile-menu-links">
+              {LINKS.map((l, i) => (
+                <motion.button
+                  key={l.id}
+                  className="mobile-menu-link"
+                  onClick={() => scrollTo(l.id)}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  {l.label}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </motion.button>
+              ))}
+              <motion.button
+                className="mobile-menu-link mobile-menu-cta"
+                onClick={() => { setMenuOpen(false); onBookCall() }}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: LINKS.length * 0.05 }}
+              >
+                Run the OOS Radar for My Facility
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </motion.button>
+            </nav>
+            <div className="mobile-menu-footer">
+              <span className="label">Signal & Line · Montreal, CA</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
